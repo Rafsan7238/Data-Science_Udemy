@@ -1,4 +1,6 @@
-# Absenteeism Dataset: Reason for Absence Descriptions
+# Absenteeism Dataset: Feature Description
+
+## Reason for Absence Descriptions
 
 | Reason Number | Reason Description |
 |--|--|
@@ -30,3 +32,12 @@
 |26|  Unjustified absence|
 |27|  Physiotherapy|
 |28|  Dental consultation|
+
+## Education Descriptions
+
+|	Education Number	|	Education Description	|
+|-------------------------------|-------------------------------|
+|	1	|	High School	|
+|	2	|	Graduate	|
+|	3	|	Postgraduate	|
+|	4	|	Master or Doctor	|

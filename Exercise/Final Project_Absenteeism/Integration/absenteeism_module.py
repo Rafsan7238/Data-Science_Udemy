@@ -12,21 +12,23 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.base import BaseEstimator, TransformerMixin
 
 # the custom scaler class 
-class CustomScaler(BaseEstimator,TransformerMixin): 
-    
+class CustomScaler(BaseEstimator,TransformerMixin):
+
     def __init__(self,columns,copy=True,with_mean=True,with_std=True):
-        self.scaler = StandardScaler(copy,with_mean,with_std)
+
+        self.scaler = StandardScaler(copy=copy, with_mean=with_mean, with_std=with_std)
         self.columns = columns
         self.mean_ = None
         self.var_ = None
 
     def fit(self, X, y=None):
         self.scaler.fit(X[self.columns], y)
-        self.mean_ = np.array(np.mean(X[self.columns]))
-        self.var_ = np.array(np.var(X[self.columns]))
+        self.mean_ = np.mean(X[self.columns], axis=1)
+        self.var_ = np.var(X[self.columns], axis=1)
         return self
 
     def transform(self, X, y=None, copy=None):
+
         init_col_order = X.columns
         X_scaled = pd.DataFrame(self.scaler.transform(X[self.columns]), columns=self.columns)
         X_not_scaled = X.loc[:,~X.columns.isin(self.columns)]
@@ -74,13 +76,13 @@ class absenteeism_model():
             # note: there is a more universal version of this code, however the following will best suit our current purposes             
             column_names = ['Date', 'Transportation Expense', 'Distance to Work', 'Age',
                            'Daily Work Load Average', 'Body Mass Index', 'Education', 'Children',
-                           'Pet', 'Absenteeism Time in Hours', 'Reason_1', 'Reason_2', 'Reason_3', 'Reason_4']
+                           'Pets', 'Absenteeism Time in Hours', 'Reason_1', 'Reason_2', 'Reason_3', 'Reason_4']
             df.columns = column_names
 
             # re-order the columns in df
             column_names_reordered = ['Reason_1', 'Reason_2', 'Reason_3', 'Reason_4', 'Date', 'Transportation Expense', 
                                       'Distance to Work', 'Age', 'Daily Work Load Average', 'Body Mass Index', 'Education', 
-                                      'Children', 'Pet', 'Absenteeism Time in Hours']
+                                      'Children', 'Pets', 'Absenteeism Time in Hours']
             df = df[column_names_reordered]
       
             # convert the 'Date' column into datetime
@@ -105,7 +107,7 @@ class absenteeism_model():
             column_names_upd = ['Reason_1', 'Reason_2', 'Reason_3', 'Reason_4', 'Month Value', 'Day of the Week',
                                 'Transportation Expense', 'Distance to Work', 'Age',
                                 'Daily Work Load Average', 'Body Mass Index', 'Education', 'Children',
-                                'Pet', 'Absenteeism Time in Hours']
+                                'Pets', 'Absenteeism Time in Hours']
             df = df[column_names_upd]
 
 
@@ -119,7 +121,7 @@ class absenteeism_model():
             df = df.drop(['Absenteeism Time in Hours'],axis=1)
             
             # drop the variables we decide we don't need
-            df = df.drop(['Day of the Week','Daily Work Load Average','Distance to Work'],axis=1)
+            df = df.drop(['Daily Work Load Average','Distance to Work'],axis=1)
             
             # we have included this line of code if you want to call the 'preprocessed data'
             self.preprocessed_data = df.copy()

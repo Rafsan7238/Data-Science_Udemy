@@ -76,11 +76,11 @@ class absenteeism_model():
             # note: there is a more universal version of this code, however the following will best suit our current purposes             
             column_names = ['Date', 'Transportation Expense', 'Distance to Work', 'Age',
                            'Daily Work Load Average', 'Body Mass Index', 'Education', 'Children',
-                           'Pets', 'Absenteeism Time in Hours', 'Reason_1', 'Reason_2', 'Reason_3', 'Reason_4']
+                           'Pets', 'Absenteeism Time in Hours', 'Reason 1', 'Reason 2', 'Reason 3', 'Reason 4']
             df.columns = column_names
 
             # re-order the columns in df
-            column_names_reordered = ['Reason_1', 'Reason_2', 'Reason_3', 'Reason_4', 'Date', 'Transportation Expense', 
+            column_names_reordered = ['Reason 1', 'Reason 2', 'Reason 3', 'Reason 4', 'Date', 'Transportation Expense',
                                       'Distance to Work', 'Age', 'Daily Work Load Average', 'Body Mass Index', 'Education', 
                                       'Children', 'Pets', 'Absenteeism Time in Hours']
             df = df[column_names_reordered]
@@ -104,7 +104,7 @@ class absenteeism_model():
             df = df.drop(['Date'], axis = 1)
 
             # re-order the columns in df
-            column_names_upd = ['Reason_1', 'Reason_2', 'Reason_3', 'Reason_4', 'Month Value', 'Day of the Week',
+            column_names_upd = ['Reason 1', 'Reason 2', 'Reason 3', 'Reason 4', 'Month Value', 'Day of the Week',
                                 'Transportation Expense', 'Distance to Work', 'Age',
                                 'Daily Work Load Average', 'Body Mass Index', 'Education', 'Children',
                                 'Pets', 'Absenteeism Time in Hours']
@@ -120,14 +120,14 @@ class absenteeism_model():
             # drop the original absenteeism time
             df = df.drop(['Absenteeism Time in Hours'],axis=1)
             
-            # drop the variables we decide we don't need
-            df = df.drop(['Daily Work Load Average','Distance to Work'],axis=1)
-            
             # we have included this line of code if you want to call the 'preprocessed data'
             self.preprocessed_data = df.copy()
             
             # we need this line so we can use it in the next functions
             self.data = self.scaler.transform(df)
+
+            # drop the variables we decide we don't need
+            self.data = self.data.drop(['Daily Work Load Average', 'Distance to Work'], axis=1)
     
         # a function which outputs the probability of a data point to be 1
         def predicted_probability(self):
